@@ -101,7 +101,7 @@ def generate_null_bid_report():
     cursor = connection.cursor()
     
     fetch_query = """
-    SELECT TPHotel.name, TPHotel.address, TPHotel.CityName, TPHotel.CountryName 
+    SELECT NewTable.URL, TPHotel.id as hotelid, TPHotel.name, TPHotel.address, TPHotel.CityName, TPHotel.CountryName 
     FROM NewTable 
     JOIN TPHotel ON NewTable.id = TPHotel.id 
     WHERE NewTable.BId IS NULL
@@ -111,7 +111,7 @@ def generate_null_bid_report():
     
     # Create temporary file
     temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.xlsx')
-    null_bids_df = pd.DataFrame(null_bids, columns=['Hotel Name', 'Address', 'City Name', 'Country Name'])
+    null_bids_df = pd.DataFrame(null_bids, columns=['URL', 'Hotel ID', 'Hotel Name', 'Address', 'City Name', 'Country Name'])
     null_bids_df.to_excel(temp_file.name, index=False)
     
     cursor.close()
